@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: court-service
+
+  data:
+    mongodb:
+      uri: ${MONGO_ATLAS_URL}
+      database: ${DB_NAME}
