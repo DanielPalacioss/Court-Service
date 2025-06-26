@@ -7,7 +7,7 @@ import com.hoop.court.error.RequestException;
 import com.hoop.court.model.Country;
 import com.hoop.court.repository.CountryRepository;
 import com.hoop.court.repository.OrdersAdministrativeDivisionRepository;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,16 +15,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class GeoNamesClient {
 
-    private final RestTemplate restTemplate = new RestTemplate() ;
+    private final RestTemplate restTemplate = new RestTemplate();
     private final CountryRepository countryRepository;
     private final OrdersAdministrativeDivisionRepository ordersAdministrativeDivisionRepository;
+    @Value("${user.geonames}")
+    private String userGeonames;
+
+    public GeoNamesClient(CountryRepository countryRepository, OrdersAdministrativeDivisionRepository ordersAdministrativeDivisionRepository) {
+        this.countryRepository = countryRepository;
+        this.ordersAdministrativeDivisionRepository = ordersAdministrativeDivisionRepository;
+    }
 
     public void addCountries() {
         CountryResponse countryResponse = restTemplate.
-                getForObject("http://api.geonames.org/countryInfoJSON?username=mrdaniel", CountryResponse.class);
+                getForObject("http://api.geonames.org/countryInfoJSON?username="+userGeonames, CountryResponse.class);
         List<Country> countries = new ArrayList<>();
         if (countryResponse != null && countryResponse.getGeonames() != null) {
             countryResponse.getGeonames().forEach(country -> {
@@ -43,7 +49,7 @@ public class GeoNamesClient {
         countries.forEach(country -> { // Iterate over all countries
             try {
                 OrdersAdministrativeDivisionResponse firstOrdersAdministrativeDivisionResponse = restTemplate. // get firstOrders of country
-                        getForObject("http://api.geonames.org/childrenJSON?geonameId=" + country.getGeonameId() + "&username=mrdaniel", OrdersAdministrativeDivisionResponse.class);
+                        getForObject("http://api.geonames.org/childrenJSON?geonameId=" + country.getGeonameId() + "&username="+userGeonames, OrdersAdministrativeDivisionResponse.class);
                 if (firstOrdersAdministrativeDivisionResponse == null || firstOrdersAdministrativeDivisionResponse.getGeonames() == null) {
                     System.err.println("No data found for the country: " + country.getCountryName());
                     return; // Continue with next country
@@ -53,7 +59,7 @@ public class GeoNamesClient {
                 firstOrdersAdministrativeDivisionResponse.getGeonames().forEach(firstOrder -> { // Iterate over all firstOrders
                     try {
                         if(ordersAdministrativeDivisionRepository.findById(firstOrder.getGeonameId()).isPresent()) return; // If the first order administrative is found, there are already second order administrative. Continue with next firstOrder
-                        OrdersAdministrativeDivisionResponse secondOrdersAdministrativeDivisionResponse = restTemplate.getForObject("http://api.geonames.org/childrenJSON?geonameId=" + firstOrder.getGeonameId() + "&username=mrdaniel", OrdersAdministrativeDivisionResponse.class);
+                        OrdersAdministrativeDivisionResponse secondOrdersAdministrativeDivisionResponse = restTemplate.getForObject("http://api.geonames.org/childrenJSON?geonameId=" + firstOrder.getGeonameId() + "&username="+userGeonames, OrdersAdministrativeDivisionResponse.class);
                         firstOrdersAdministrativeDivisionDTO.add(new OrdersAdministrativeDivisionDTO(firstOrder)); // add firstOrder
                         if (secondOrdersAdministrativeDivisionResponse == null || secondOrdersAdministrativeDivisionResponse.getGeonames() == null) {
                             System.err.println("No se encontraron ciudades para la región: " + firstOrder.getName());
