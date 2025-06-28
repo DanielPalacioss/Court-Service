@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+#Database and spring boot Environment
+.env

@@ -1,0 +1,35 @@
+services:
+  court-service:
+    image: court-service
+    container_name: container-court
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      MONGO_URL: ${MONGO_URL}
+      DB_NAME: ${DB_NAME}
+      USER_GEONAMES: ${USER_GEONAMES}
+    networks:
+      - court-network
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${USERNAME_MONGO}
+      MONGO_INITDB_ROOT_PASSWORD: ${PASSWORD_MONGO}
+    networks:
+      - court-network
+    volumes:
+      - volume-mongo:/var/lib/mongo
+
+networks:
+  court-network:
+
+volumes:
+  volume-mongo:
