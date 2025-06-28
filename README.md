@@ -46,18 +46,23 @@ Se proveerá un **backup** completo de la base de datos en este repositorio para
 | GET    | `/geo/country/all`                                     | Obtener todos los paises registrados.                                       |
 | GET    | `/geo/ordersAdministrative/firstOrderOfCountry`        | Obtener todos los firstOrder de un pais con el id del pais.                 |
 | GET    | `/geo/ordersAdministrative/secondOrderOfCountry`       | Obtener todas las ciudades de una region con el id de la region y el pais.  |
-| GET    | `/locations/cities/{geonameId}`                        | Obtener ciudades bajo un `geonameId`.                                       |
 
 ## 🔐 Requisitos previos
 
 - Tener MongoDB en ejecución local o en la nube.
 
-Configurar tus credenciales en `application.properties`:
+Configurar tus credenciales en tu .env y agrega los nombres a `application.properties` y `docker-compose.yml`:
+
 
 ```properties
   data:
     mongodb:
-      uri: ${MONGO_ATLAS_URL}
+      uri: ${MONGO_URL}
       database: ${DB_NAME}
 
   userGeoname: ${USER_GEONAME}
+
+```docker-compose
+  ${USERNAME_MONGO}
+  ${PASSWORD_MONGO}
+
