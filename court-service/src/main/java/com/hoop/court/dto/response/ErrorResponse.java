@@ -1,11 +1,11 @@
-package com.hoop.court.error;
+package com.hoop.court.dto.response;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class Error {
+public class ErrorResponse {
     private String message;
     private String code;
 }

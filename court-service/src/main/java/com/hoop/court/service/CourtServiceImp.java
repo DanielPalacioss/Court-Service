@@ -1,7 +1,7 @@
 package com.hoop.court.service;
 
-import com.hoop.court.dto.CourtRequestDTO;
-import com.hoop.court.error.RequestException;
+import com.hoop.court.dto.request.CourtRequest;
+import com.hoop.court.exception.RequestException;
 import com.hoop.court.model.Court;
 import com.hoop.court.repository.CourtRepository;
 import com.hoop.court.repository.OrdersAdministrativeDivisionRepository;
@@ -42,7 +42,7 @@ public class CourtServiceImp implements  CourtService{
     }
 
     @Override
-    public void save(CourtRequestDTO courtsDTO) {
+    public void save(CourtRequest courtsDTO) {
         List<Court> courts = new ArrayList<>();
         courtsDTO.getPlaces().forEach(courtDTO -> {
             if(courtRepository.findById(courtDTO.id()).isEmpty())

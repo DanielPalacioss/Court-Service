@@ -1,11 +1,11 @@
-package com.hoop.court.dto;
+package com.hoop.court.dto.request;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class CourtRequestDTO {
+public class CourtRequest {
 
     private List<CourtRequest> places;
 

@@ -1,7 +1,7 @@
 package com.hoop.court.controller;
 
 import com.hoop.court.client.geonames.GeoNamesClient;
-import com.hoop.court.dto.OrdersAdministrativeDivisionDTO;
+import com.hoop.court.model.OrdersAdministrativeDivision;
 import com.hoop.court.service.CountryService;
 import com.hoop.court.service.OrdersAdministrativeDivisionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +26,12 @@ public class OrdersAdministrativeDivisionController {
     private GeoNamesClient geoNamesClient;
 
     @GetMapping("/firstOrderOfCountry")
-    public ResponseEntity<List<OrdersAdministrativeDivisionDTO>> getAllFirstOrderOfCountry(@RequestParam String countryId) {
+    public ResponseEntity<List<OrdersAdministrativeDivision>> getAllFirstOrderOfCountry(@RequestParam String countryId) {
         return ResponseEntity.ok(ordersAdministrativeDivisionService.getAllFirstOrderOfCountry(countryId));
     }
 
     @GetMapping("/secondOrderOfCountry")
-    public ResponseEntity<List<OrdersAdministrativeDivisionDTO>> getAllSecondOrderOfFirstOrder(@RequestParam String firstOrderName, @RequestParam String countryId) {
+    public ResponseEntity<List<OrdersAdministrativeDivision>> getAllSecondOrderOfFirstOrder(@RequestParam String firstOrderName, @RequestParam String countryId) {
         return ResponseEntity.ok(ordersAdministrativeDivisionService.getAllSecondOrderOfFirstOrder(firstOrderName, countryId));
     }
 

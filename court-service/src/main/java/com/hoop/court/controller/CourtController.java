@@ -1,6 +1,6 @@
 package com.hoop.court.controller;
 
-import com.hoop.court.dto.CourtRequestDTO;
+import com.hoop.court.dto.request.CourtRequest;
 import com.hoop.court.model.Court;
 import com.hoop.court.service.CourtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class CourtController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveCourts(@RequestBody CourtRequestDTO courtRequest) {
+    public ResponseEntity<?> saveCourts(@RequestBody CourtRequest courtRequest) {
         courtService.save(courtRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("Courts saved successfully");
     }

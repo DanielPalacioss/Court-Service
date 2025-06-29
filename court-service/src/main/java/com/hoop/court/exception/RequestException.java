@@ -1,8 +1,8 @@
-package com.hoop.court.error;
+package com.hoop.court.exception;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class RequestException extends RuntimeException{
     private String code;
      public RequestException(String message, String code){

@@ -2,8 +2,8 @@ package com.hoop.court.client.geonames;
 
 import com.hoop.court.client.geonames.response.CountryResponse;
 import com.hoop.court.client.geonames.response.OrdersAdministrativeDivisionResponse;
-import com.hoop.court.dto.OrdersAdministrativeDivisionDTO;
-import com.hoop.court.error.RequestException;
+import com.hoop.court.model.OrdersAdministrativeDivision;
+import com.hoop.court.exception.RequestException;
 import com.hoop.court.model.Country;
 import com.hoop.court.repository.CountryRepository;
 import com.hoop.court.repository.OrdersAdministrativeDivisionRepository;
@@ -54,29 +54,29 @@ public class GeoNamesClient {
                     System.err.println("No data found for the country: " + country.getCountryName());
                     return; // Continue with next country
                 }
-                List<OrdersAdministrativeDivisionDTO> firstOrdersAdministrativeDivisionDTO = new ArrayList<>();
+                List<OrdersAdministrativeDivision> firstOrdersAdministrativeDivision = new ArrayList<>();
 
                 firstOrdersAdministrativeDivisionResponse.getGeonames().forEach(firstOrder -> { // Iterate over all firstOrders
                     try {
                         if(ordersAdministrativeDivisionRepository.findById(firstOrder.getGeonameId()).isPresent()) return; // If the first order administrative is found, there are already second order administrative. Continue with next firstOrder
                         OrdersAdministrativeDivisionResponse secondOrdersAdministrativeDivisionResponse = restTemplate.getForObject("http://api.geonames.org/childrenJSON?geonameId=" + firstOrder.getGeonameId() + "&username="+userGeonames, OrdersAdministrativeDivisionResponse.class);
-                        firstOrdersAdministrativeDivisionDTO.add(new OrdersAdministrativeDivisionDTO(firstOrder)); // add firstOrder
+                        firstOrdersAdministrativeDivision.add(new OrdersAdministrativeDivision(firstOrder)); // add firstOrder
                         if (secondOrdersAdministrativeDivisionResponse == null || secondOrdersAdministrativeDivisionResponse.getGeonames() == null) {
                             System.err.println("No se encontraron ciudades para la región: " + firstOrder.getName());
                             return; // Continue with next firstOrder
                         }
-                        List<OrdersAdministrativeDivisionDTO> secondOrdersAdministrativeDivisionDTO = new ArrayList<>();
+                        List<OrdersAdministrativeDivision> secondOrdersAdministrativeDivision = new ArrayList<>();
 
                         secondOrdersAdministrativeDivisionResponse.getGeonames().forEach(secondOrder -> { // We iterate over all the first order to initialize all the DTOs
-                            secondOrdersAdministrativeDivisionDTO.add(new OrdersAdministrativeDivisionDTO(secondOrder));
+                            secondOrdersAdministrativeDivision.add(new OrdersAdministrativeDivision(secondOrder));
                         });
-                        ordersAdministrativeDivisionRepository.saveAll(secondOrdersAdministrativeDivisionDTO); // save all "secondOrder"
+                        ordersAdministrativeDivisionRepository.saveAll(secondOrdersAdministrativeDivision); // save all "secondOrder"
                     }catch (Exception ex){
                         System.err.println(ex.getMessage());
 
                     }
                     });
-                ordersAdministrativeDivisionRepository.saveAll(firstOrdersAdministrativeDivisionDTO); // save all "firstOrder"
+                ordersAdministrativeDivisionRepository.saveAll(firstOrdersAdministrativeDivision); // save all "firstOrder"
 
                 }catch (Exception e){
                     System.err.println(e.getMessage());

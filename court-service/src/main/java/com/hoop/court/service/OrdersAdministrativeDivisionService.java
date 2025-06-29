@@ -1,10 +1,10 @@
 package com.hoop.court.service;
 
-import com.hoop.court.dto.OrdersAdministrativeDivisionDTO;
+import com.hoop.court.model.OrdersAdministrativeDivision;
 
 import java.util.List;
 
 public interface OrdersAdministrativeDivisionService {
-    List<OrdersAdministrativeDivisionDTO> getAllFirstOrderOfCountry(String countryId);
-    List<OrdersAdministrativeDivisionDTO> getAllSecondOrderOfFirstOrder(String FirstOrderName, String countryId);
+    List<OrdersAdministrativeDivision> getAllFirstOrderOfCountry(String countryId);
+    List<OrdersAdministrativeDivision> getAllSecondOrderOfFirstOrder(String FirstOrderName, String countryId);
 }

@@ -1,6 +1,6 @@
 package com.hoop.court.service;
 
-import com.hoop.court.error.RequestException;
+import com.hoop.court.exception.RequestException;
 import com.hoop.court.model.Country;
 import com.hoop.court.repository.CountryRepository;
 import lombok.AllArgsConstructor;
