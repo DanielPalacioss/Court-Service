@@ -10,9 +10,9 @@ import java.util.Optional;
 @Repository
 public interface OrdersAdministrativeDivisionRepository extends MongoRepository<OrdersAdministrativeDivision,Long> {
 
-    Optional<List<OrdersAdministrativeDivision>> findByCountryIdAndFcodeName(String countryId, String fcodeName);
+    List<OrdersAdministrativeDivision> findByCountryIdAndFcodeName(String countryId, String fcodeName);
 
-    Optional<List<OrdersAdministrativeDivision>> findByAdminName1AndFcodeNameAndCountryId(String adminName1, String fcodeName, String countryId);
+    List<OrdersAdministrativeDivision> findByAdminName1AndFcodeNameAndCountryId(String adminName1, String fcodeName, String countryId);
 
     Optional<OrdersAdministrativeDivision> findByAdminName1AndName(String adminName1, String toponymName);
 }

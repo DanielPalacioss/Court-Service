@@ -25,7 +25,11 @@ public class CourtServiceImp implements  CourtService{
 
     @Override
     public List<Court> getCourtsByCityId(long id) {
-        return courtRepository.findByCityGeonameId(id).orElseThrow(() -> new RequestException("There is no court with city id "+id,"400-Bad Request"));
+        List<Court> courts = courtRepository.findByCityGeonameId(id);
+        if(courts.isEmpty()){
+            throw new RequestException("There is no court with city id "+id,"400-Bad Request");
+        }
+        return courts;
     }
 
     @Override

@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface CourtRepository extends MongoRepository<Court,String> {
 
-    Optional<List<Court>> findByCityGeonameId(long id);
+    List<Court> findByCityGeonameId(long id);
 }

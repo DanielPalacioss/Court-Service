@@ -14,21 +14,25 @@ import java.util.List;
 public class OrdersAdministrativeDivisionServiceImp implements OrdersAdministrativeDivisionService {
 
     private final OrdersAdministrativeDivisionRepository ordersAdministrativeDivisionRepository;
-    private final MongoTemplate mongoTemplate;
-
 
     @Override
     public List<OrdersAdministrativeDivision> getAllFirstOrderOfCountry(String countryId) {
-        return ordersAdministrativeDivisionRepository
-                .findByCountryIdAndFcodeName(countryId, "first-order administrative division").
-                orElseThrow(() -> new RequestException("There is no a country with id "+ countryId, "400-Bad Request"));
+        List<OrdersAdministrativeDivision> ordersAdministrativeDivisions = ordersAdministrativeDivisionRepository
+                .findByCountryIdAndFcodeName(countryId, "first-order administrative division");
+        if(ordersAdministrativeDivisions.isEmpty()){
+            throw new RequestException("There is no a country with id "+ countryId, "400-Bad Request");
+        }
+        return ordersAdministrativeDivisions;
     }
 
     @Override
     public List<OrdersAdministrativeDivision> getAllSecondOrderOfFirstOrder(String firstOrderName, String countryId) {
-        return ordersAdministrativeDivisionRepository
-                .findByAdminName1AndFcodeNameAndCountryId(firstOrderName, "second-order administrative division", countryId)
-                .orElseThrow(() -> new RequestException("There is no first order administrative with name "+firstOrderName, "400-Bad Request"));
+        List<OrdersAdministrativeDivision> ordersAdministrativeDivisions = ordersAdministrativeDivisionRepository
+                .findByAdminName1AndFcodeNameAndCountryId(firstOrderName, "second-order administrative division", countryId);
+        if(ordersAdministrativeDivisions.isEmpty()){
+            throw new RequestException("There is no first order administrative with name "+firstOrderName, "400-Bad Request");
+        }
+        return ordersAdministrativeDivisions;
     }
 
 }
