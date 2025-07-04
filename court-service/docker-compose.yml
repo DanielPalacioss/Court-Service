@@ -23,13 +23,18 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${USERNAME_MONGO}
       MONGO_INITDB_ROOT_PASSWORD: ${PASSWORD_MONGO}
+      DB_NAME: ${DB_NAME}
     networks:
       - court-network
     volumes:
-      - volume-mongo:/var/lib/mongo
+      - ./init:/docker-entrypoint-initdb.d
+      - ./dump:/dump
+      - mongo-data:/data/db
+
+
 
 networks:
   court-network:
 
 volumes:
-  volume-mongo:
+  mongo-data:

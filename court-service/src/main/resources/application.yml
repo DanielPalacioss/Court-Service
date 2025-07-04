@@ -2,6 +2,7 @@ spring:
   application:
     name: court-service
 
+
   data:
     mongodb:
       uri: ${MONGO_URL}
@@ -9,3 +10,5 @@ spring:
 
 user:
   geonames: ${USER_GEONAMES}
+server:
+  port: 8081

@@ -1,6 +1,6 @@
 package com.hoop.court.model;
 
-import com.hoop.court.dto.request.CourtRequest;
+import com.hoop.court.dto.request.CourtRequestDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -28,7 +28,7 @@ public class Court {
     private List<String> courtImages;
     private long cityGeonameId;
 
-    public Court(CourtRequest.CourtRequest court, long cityGeonameId) {
+    public Court(CourtRequestDTO.CourtRequest court, long cityGeonameId) {
         this.courtGmaps = court.id();
         this.name = court.addressDescriptor().landmarks().get(0).displayName().text();
         this.alternativeName = court.addressDescriptor().landmarks().get(1).displayName().text();
